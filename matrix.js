@@ -10,8 +10,8 @@ function loadMatrix() {
 	c.width = window.innerWidth;
 
 	//chinese characters - taken from the unicode charset
-	//var chinese = "abcdefghijklmnopqrstuvwxyz0123456789$+-/=%\"'#&-(),.;:?!\\|{}><[]^~ ";
-	var chinese = "♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
+	var chinese = "abcdefghijklmnopqrstuvwxyz0123456789$+-/=%\"'#&-(),.;:?!\\|{}><[]^~ ";
+	//var chinese = "♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
 	console.log(chinese);
 	//converting the string into an array of single characters
 	chinese = chinese.split("");
