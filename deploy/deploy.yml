@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matrix
+  template:
+    metadata:
+      labels:
+        app: matrix
+    spec:
+      containers:
+      - name: matrix
+        image: ghcr.io/thinktt/matrix:latest
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: gh-registry-creds
+

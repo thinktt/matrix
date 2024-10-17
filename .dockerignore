@@ -1,4 +1,2 @@
 Dockerfile
-nginx.conf
-README.md
-Taskfile.yml
+deploy

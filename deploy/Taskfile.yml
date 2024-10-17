@@ -1,0 +1,55 @@
+version: '3'
+
+dotenv: ['.env', '{{.ENV}}/.env.', '{{.HOME}}/.env']
+
+tasks:
+  greeting: 
+    - echo Howdy
+
+  dbuild:
+    dir: ../
+    cmds: 
+    - docker build -t ghcr.io/thinktt/matrix:latest .
+   
+  dpush: 
+    - docker push ghcr.io/thinktt/matrix:latest
+
+  drun :
+    - docker run -d --name matrix -p 8080:80 ghcr.io/thinktt/matrix:latest
+
+  deploy: 
+    - kubectl apply -f deploy.yml
+    - kubectl apply -f service.yml
+
+  teardown:
+    - kub
+  
+  apply-k8s-pull-token: 
+    preconditions:
+      - sh: test -n "{{.REGISTRY_TOKEN}}"
+        msg: "Error: REGISTRY_TOKEN is missing"
+    desc: put registry pull secrets in the cluster
+    aliases: [kcreds]
+    silent: true
+    vars: 
+      LOGIN: "group"
+      PASS: "{{.REGISTRY_TOKEN}}"
+    cmds: 
+      - echo "Sending secrets to K8s"
+      - echo "be sure to have a LOGIN and PASS in your env"
+      - echo "setting registry token for namespace default"
+      - | 
+        kubectl create secret docker-registry gh-registry-creds \
+        -n default \
+        --docker-server=ghcr.io \
+        --docker-username={{.LOGIN}} \
+        --docker-password={{.PASS}}
+
+  
+  delete-k8s-pull-token:
+    desc: remove registry pull secrets from cluster
+    aliases: [kcredsdel]
+    silent: true
+    cmds: 
+      - echo "deleting registry token for namespace default"
+      - kubectl delete secrets gh-registry-creds -n default  
