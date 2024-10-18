@@ -22,7 +22,8 @@ tasks:
     - kubectl apply -f service.yml
 
   teardown:
-    - kub
+    - kubectl delete -f deploy.yml
+    - kubectl delete -f service.yaml
   
   apply-k8s-pull-token: 
     preconditions:

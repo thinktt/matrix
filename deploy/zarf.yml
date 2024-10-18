@@ -1,0 +1,12 @@
+components:
+  - name: matrix  # specifies the name of our component and should be unique and unchanging through updates
+    description: |   # (optional) a human-readable description of the component you are defining
+      "Deploys a matrix rain web page, served via nginx, into the cluster"
+    required: true   # (optional) sets the component as 'required' so that it is always deployed
+    charts:
+      - name: matrix
+        url: oci://registry-1.docker.io/bitnamicharts/wordpress
+        version: 16.0.4
+        namespace: wordpress
+        valuesFiles:
+          - wordpress-values.yaml

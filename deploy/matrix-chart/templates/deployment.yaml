@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: matrix
+        image: ghcr.io/thinktt/matrix:latest
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: gh-registry-creds
+
